@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { BarChart, Bar, LineChart, Line, AreaChart, Area, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
-/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+/* ═══════════════════════════════════════════════════════════════
    STOKESHIRE KPI & ANALYTICS DASHBOARD
    Live GA4 + Search Console + Orders + AI Visibility
    Design: Cormorant Garamond + Jost | Copper + Cream + Ink
-   v2.0 â Added AI Visibility Monitor (Tab 5)
-   âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+   v2.0 — Added AI Visibility Monitor (Tab 5)
+   ═══════════════════════════════════════════════════════════════ */
 
 const C = {
   copper: "#AD7A28", copperLight: "#C4943F", copperGlow: "rgba(173,122,40,0.12)",
@@ -22,14 +22,14 @@ const FONT = {
   body: "'Jost', 'Helvetica Neue', sans-serif",
 };
 
-// âââ LIVE CSV URLS âââ
+// ═══ LIVE CSV URLS ═══
 const CSV_URLS = {
   standardMetrics: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSTiGPTj3d8JIUglnoc9_h25XJWa1u-5umMUkXXIMvipwZZA8h9VWCQIx7nN_JDFjzmvB_r2OKqsEq/pub?gid=1051370982&single=true&output=csv",
   searchConsole: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSTiGPTj3d8JIUglnoc9_h25XJWa1u-5umMUkXXIMvipwZZA8h9VWCQIx7nN_JDFjzmvB_r2OKqsEq/pub?gid=0&single=true&output=csv",
   orders: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTt55QDq_dohHCVo7Y_joehj1-4NSFzSv_gQ0ZvbTtGMNXlblkitH1K_bUaslmvqqJM3FSA95s0y9yN/pub?output=csv",
 };
 
-// âââ CSV PARSER âââ
+// ═══ CSV PARSER ═══
 function parseCSVLine(line) {
   const result = [];
   let current = "";
@@ -63,18 +63,18 @@ function parseCSV(text, skipMetaRows = 0) {
   }).filter(r => Object.values(r).some(v => v));
 }
 
-// âââ FORMATTERS âââ
+// ═══ FORMATTERS ═══
 const fmt = {
-  num: (n) => n == null ? "â" : Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }),
-  pct: (n) => n == null ? "â" : (Number(n) * 100).toFixed(1) + "%",
+  num: (n) => n == null ? "—" : Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }),
+  pct: (n) => n == null ? "—" : (Number(n) * 100).toFixed(1) + "%",
   dur: (s) => {
     const sec = Math.round(Number(s));
     const m = Math.floor(sec / 60);
     const ss = sec % 60;
     return `${m}:${String(ss).padStart(2, "0")}`;
   },
-  dec: (n, d = 1) => n == null ? "â" : Number(n).toFixed(d),
-  usd: (n) => n == null ? "â" : "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }),
+  dec: (n, d = 1) => n == null ? "—" : Number(n).toFixed(d),
+  usd: (n) => n == null ? "—" : "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }),
   compact: (n) => {
     const v = Number(n);
     if (v >= 1000000) return (v / 1000000).toFixed(1) + "M";
@@ -83,7 +83,7 @@ const fmt = {
   },
 };
 
-// âââ SHARED COMPONENTS âââ
+// ═══ SHARED COMPONENTS ═══
 function KPI({ label, value, sub, accent = C.copper, icon }) {
   return (
     <div style={{
@@ -152,9 +152,9 @@ function Tabs({ tabs, active, onChange }) {
   );
 }
 
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// AI VISIBILITY â PROMPTS, STORAGE, HELPERS
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════════════════════
+// AI VISIBILITY — PROMPTS, STORAGE, HELPERS
+// ═══════════════════════════════════════════════════════════════
 
 const AI_STORAGE_KEY = "stokeshire-ai-visibility";
 const loadAIResults = () => {
@@ -210,9 +210,9 @@ function AITag({ children, color }) {
   );
 }
 
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════════════════════
 // AI VISIBILITY TAB COMPONENT
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════════════════════
 
 function AIVisibilityTab() {
   const [results, setResults] = useState(() => loadAIResults());
@@ -309,11 +309,11 @@ function AIVisibilityTab() {
     return true;
   });
 
-  // ââ No results state ââ
+  // ── No results state ──
   if (!stats && !scanning) {
     return (
       <div style={{ textAlign: "center", padding: "60px 20px" }}>
-        <div style={{ fontSize: 48, marginBottom: 16 }}>ð</div>
+        <div style={{ fontSize: 48, marginBottom: 16 }}>🔍</div>
         <h2 style={{ fontFamily: FONT.display, fontWeight: 600, color: C.ink, fontSize: 24, marginBottom: 8 }}>
           AI Visibility Monitor
         </h2>
@@ -394,18 +394,18 @@ function AIVisibilityTab() {
         </div>
       )}
 
-      {/* ââ OVERVIEW ââ */}
+      {/* ── OVERVIEW ── */}
       {stats && aiSubTab === "overview" && (
         <>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 24 }}>
-            <KPI icon="ð¯" label="Visibility Score" value={aiPct(stats.mentioned, stats.total)}
+            <KPI icon="🎯" label="Visibility Score" value={aiPct(stats.mentioned, stats.total)}
               sub={`${stats.mentioned} of ${stats.total} prompts`}
               accent={stats.mentioned / stats.total > 0.3 ? C.success : C.danger} />
-            <KPI icon="ð" label="Citation Rate" value={aiPct(stats.cited, stats.total)}
+            <KPI icon="🔗" label="Citation Rate" value={aiPct(stats.cited, stats.total)}
               sub={`Source URL cited ${stats.cited}x`} accent={C.accent1} />
-            <KPI icon="ð" label="Top Competitor" value={stats.competitors[0]?.[0] || "None"}
+            <KPI icon="🏆" label="Top Competitor" value={stats.competitors[0]?.[0] || "None"}
               sub={stats.competitors[0] ? `Mentioned ${stats.competitors[0][1]}x` : ""} accent={C.accent2} />
-            <KPI icon="ð¨" label="Visibility Gaps" value={stats.gaps.length}
+            <KPI icon="🚨" label="Visibility Gaps" value={stats.gaps.length}
               sub="Competitors beat you" accent={stats.gaps.length > 5 ? C.danger : C.warning} />
           </div>
 
@@ -453,7 +453,7 @@ function AIVisibilityTab() {
         </>
       )}
 
-      {/* ââ PROMPT RESULTS ââ */}
+      {/* ── PROMPT RESULTS ── */}
       {stats && aiSubTab === "prompts" && (
         <>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
@@ -522,7 +522,7 @@ function AIVisibilityTab() {
                     )}
                   </div>
                 </div>
-                <span style={{ fontSize: 16, color: C.stone, transform: expandedPrompt === i ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>â¾</span>
+                <span style={{ fontSize: 16, color: C.stone, transform: expandedPrompt === i ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▾</span>
               </div>
 
               {expandedPrompt === i && (
@@ -567,7 +567,7 @@ function AIVisibilityTab() {
         </>
       )}
 
-      {/* ââ COMPETITORS ââ */}
+      {/* ── COMPETITORS ── */}
       {stats && aiSubTab === "competitors" && (
         <>
           <Section title="Full Competitor Leaderboard" style={{ marginBottom: 24 }}>
@@ -584,7 +584,7 @@ function AIVisibilityTab() {
               display: "grid", gridTemplateColumns: "40px 1fr 80px 80px",
               padding: "10px 12px", background: "#F5F9F5", borderBottom: `1px solid ${C.warmGray}`,
             }}>
-              <span style={{ fontFamily: FONT.display, fontSize: 16, color: C.success }}>â</span>
+              <span style={{ fontFamily: FONT.display, fontSize: 16, color: C.success }}>★</span>
               <span style={{ fontSize: 13, fontWeight: 600, color: C.success }}>Stokeshire</span>
               <span style={{ fontSize: 13, color: C.success, fontWeight: 600 }}>{stats.mentioned}</span>
               <span style={{ fontSize: 13, color: C.success }}>{aiPct(stats.mentioned, stats.total)}</span>
@@ -608,7 +608,7 @@ function AIVisibilityTab() {
         </>
       )}
 
-      {/* ââ GAPS & SOURCES ââ */}
+      {/* ── GAPS & SOURCES ── */}
       {stats && aiSubTab === "gaps" && (
         <>
           <Section title="Visibility Gaps" style={{ marginBottom: 24 }}>
@@ -665,9 +665,9 @@ function AIVisibilityTab() {
 }
 
 
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════════════════════
 // MAIN DASHBOARD
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════════════════════
 
 export default function StokeshireKPIDashboard() {
   const [tab, setTab] = useState("overview");
@@ -794,11 +794,11 @@ export default function StokeshireKPIDashboard() {
   }, [searchData]);
 
   const TABS = [
-    { id: "overview", label: "Overview", icon: "ð" },
-    { id: "traffic", label: "Traffic", icon: "ð" },
-    { id: "seo", label: "SEO & Keywords", icon: "ð" },
-    { id: "pages", label: "Top Pages", icon: "ð" },
-    { id: "ai", label: "AI Visibility", icon: "ð¤" },
+    { id: "overview", label: "Overview", icon: "📊" },
+    { id: "traffic", label: "Traffic", icon: "📈" },
+    { id: "seo", label: "SEO & Keywords", icon: "🔍" },
+    { id: "pages", label: "Top Pages", icon: "📄" },
+    { id: "ai", label: "AI Visibility", icon: "🤖" },
   ];
 
   if (loading) {
@@ -831,7 +831,7 @@ export default function StokeshireKPIDashboard() {
         .fade-in { animation: fadeIn 0.4s ease-out forwards; }
       `}</style>
 
-      {/* ââ HEADER ââ */}
+      {/* ── HEADER ── */}
       <div style={{
         background: C.ink, padding: "20px 32px", display: "flex",
         justifyContent: "space-between", alignItems: "center",
@@ -842,7 +842,7 @@ export default function StokeshireKPIDashboard() {
             color: C.cream, letterSpacing: "0.02em",
           }}>Stokeshire Analytics</div>
           <div style={{ fontFamily: FONT.body, fontSize: 12, color: C.stone, marginTop: 2 }}>
-            KPI Dashboard Â· Live GA4 + Search Console + AI Visibility
+            KPI Dashboard · Live GA4 + Search Console + AI Visibility
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -851,7 +851,7 @@ export default function StokeshireKPIDashboard() {
           )}
           <div style={{ textAlign: "right" }}>
             <div style={{ fontFamily: FONT.body, fontSize: 11, color: C.stone }}>
-              {trafficData.length} days Â· {searchData.length > 0 ? fmt.compact(searchData.length) + " keywords" : "â"}
+              {trafficData.length} days · {searchData.length > 0 ? fmt.compact(searchData.length) + " keywords" : "—"}
             </div>
             {lastUpdated && (
               <div style={{ fontFamily: FONT.body, fontSize: 10, color: C.slate }}>
@@ -863,7 +863,7 @@ export default function StokeshireKPIDashboard() {
             background: C.copper, color: C.cream, border: "none", borderRadius: 6,
             padding: "8px 16px", fontFamily: FONT.body, fontSize: 12, fontWeight: 500,
             cursor: "pointer", letterSpacing: "0.04em",
-          }}>â» Refresh</button>
+          }}>↻ Refresh</button>
         </div>
       </div>
 
@@ -872,38 +872,38 @@ export default function StokeshireKPIDashboard() {
       <div style={{ padding: "24px 32px", maxWidth: 1280, margin: "0 auto" }}>
         <Tabs tabs={TABS} active={tab} onChange={setTab} />
 
-        {/* âââââââââââ OVERVIEW âââââââââââ */}
+        {/* ═══════════ OVERVIEW ═══════════ */}
         {tab === "overview" && metrics && (
           <div className="fade-in">
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 14, marginBottom: 24 }}>
-              <KPI icon="ð" label="Sessions (30d)" value={fmt.num(metrics.totalSessions30)}
+              <KPI icon="👁" label="Sessions (30d)" value={fmt.num(metrics.totalSessions30)}
                 sub={`${metrics.sessionChange >= 0 ? "+" : ""}${metrics.sessionChange.toFixed(1)}% vs prior`}
                 accent={metrics.sessionChange >= 0 ? C.success : C.danger} />
-              <KPI icon="ð¤" label="Users (30d)" value={fmt.num(metrics.totalUsers30)}
+              <KPI icon="👤" label="Users (30d)" value={fmt.num(metrics.totalUsers30)}
                 sub={`${fmt.num(metrics.totalNewUsers30)} new`} accent={C.accent1} />
-              <KPI icon="â¡" label="Engagement Rate" value={fmt.pct(metrics.avgEngRate30)}
+              <KPI icon="⚡" label="Engagement Rate" value={fmt.pct(metrics.avgEngRate30)}
                 sub="30-day avg" accent={C.copper} />
-              <KPI icon="ð" label="Pages / Session" value={fmt.dec(metrics.avgViewsPerSession30)}
+              <KPI icon="📄" label="Pages / Session" value={fmt.dec(metrics.avgViewsPerSession30)}
                 sub="30-day avg" accent={C.accent2} />
-              <KPI icon="â±" label="Avg Duration" value={fmt.dur(metrics.avgDuration30)}
+              <KPI icon="⏱" label="Avg Duration" value={fmt.dur(metrics.avgDuration30)}
                 sub="30-day avg" accent={C.accent3} />
             </div>
 
             {searchMetrics && (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 24 }}>
-                <KPI icon="ð" label="Total Clicks (90d)" value={fmt.num(searchMetrics.totalClicks)}
+                <KPI icon="🔍" label="Total Clicks (90d)" value={fmt.num(searchMetrics.totalClicks)}
                   sub="Search Console" accent={C.success} />
-                <KPI icon="ð" label="Impressions (90d)" value={fmt.compact(searchMetrics.totalImpressions)}
+                <KPI icon="👀" label="Impressions (90d)" value={fmt.compact(searchMetrics.totalImpressions)}
                   sub="Search Console" accent={C.accent1} />
-                <KPI icon="ð" label="Avg CTR" value={fmt.pct(searchMetrics.avgCTR)}
+                <KPI icon="📊" label="Avg CTR" value={fmt.pct(searchMetrics.avgCTR)}
                   sub="Across all queries" accent={C.copper} />
-                <KPI icon="ð·" label="Tracked Keywords" value={fmt.num(searchMetrics.all.length)}
+                <KPI icon="🏷" label="Tracked Keywords" value={fmt.num(searchMetrics.all.length)}
                   sub="With 1+ click" accent={C.accent2} />
               </div>
             )}
 
             <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16, marginBottom: 24 }}>
-              <Section title="Daily Sessions â Last 30 Days">
+              <Section title="Daily Sessions — Last 30 Days">
                 <ResponsiveContainer width="100%" height={240}>
                   <AreaChart data={metrics.last30} margin={{ top: 5, right: 10, bottom: 5, left: 10 }}>
                     <defs>
@@ -989,7 +989,7 @@ export default function StokeshireKPIDashboard() {
           </div>
         )}
 
-        {/* âââââââââââ TRAFFIC âââââââââââ */}
+        {/* ═══════════ TRAFFIC ═══════════ */}
         {tab === "traffic" && metrics && (
           <div className="fade-in">
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 24 }}>
@@ -999,7 +999,7 @@ export default function StokeshireKPIDashboard() {
               <KPI label="Engagement Rate" value={fmt.pct(metrics.avgEngRate30)} sub="30-day avg" accent={C.success} />
               <KPI label="Avg Duration" value={fmt.dur(metrics.avgDuration30)} sub="30-day avg" accent={C.accent3} />
             </div>
-            <Section title="Sessions & Users â Full Range" style={{ marginBottom: 24 }}>
+            <Section title="Sessions & Users — Full Range" style={{ marginBottom: 24 }}>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={metrics.daily} margin={{ top: 5, right: 10, bottom: 5, left: 10 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={C.warmGray} />
@@ -1046,23 +1046,23 @@ export default function StokeshireKPIDashboard() {
           </div>
         )}
 
-        {/* âââââââââââ SEO & KEYWORDS âââââââââââ */}
+        {/* ═══════════ SEO & KEYWORDS ═══════════ */}
         {tab === "seo" && searchMetrics && (
           <div className="fade-in">
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 24 }}>
-              <KPI icon="ð" label="Total Clicks" value={fmt.num(searchMetrics.totalClicks)} accent={C.copper} />
-              <KPI icon="ð" label="Impressions" value={fmt.compact(searchMetrics.totalImpressions)} accent={C.accent1} />
-              <KPI icon="ð" label="Avg CTR" value={fmt.pct(searchMetrics.avgCTR)} accent={C.success} />
-              <KPI icon="ð·" label="Keywords w/ Clicks" value={fmt.num(searchMetrics.all.length)} accent={C.accent2} />
+              <KPI icon="🔍" label="Total Clicks" value={fmt.num(searchMetrics.totalClicks)} accent={C.copper} />
+              <KPI icon="👀" label="Impressions" value={fmt.compact(searchMetrics.totalImpressions)} accent={C.accent1} />
+              <KPI icon="📊" label="Avg CTR" value={fmt.pct(searchMetrics.avgCTR)} accent={C.success} />
+              <KPI icon="🏷" label="Keywords w/ Clicks" value={fmt.num(searchMetrics.all.length)} accent={C.accent2} />
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
-              <Section title="Top 20 Keywords â Clicks">
+              <Section title="Top 20 Keywords — Clicks">
                 <ResponsiveContainer width="100%" height={500}>
                   <BarChart data={searchMetrics.top20} layout="vertical" margin={{ top: 5, right: 20, bottom: 5, left: 140 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={C.warmGray} />
                     <XAxis type="number" tick={{ fontSize: 10, fill: C.stone }} />
                     <YAxis dataKey="query" type="category" tick={{ fontSize: 10, fill: C.ink }} width={130}
-                      tickFormatter={v => v.length > 22 ? v.slice(0, 22) + "â¦" : v} />
+                      tickFormatter={v => v.length > 22 ? v.slice(0, 22) + "…" : v} />
                     <Tooltip contentStyle={{ fontFamily: FONT.body, fontSize: 12, borderRadius: 6 }}
                       formatter={(v, n) => [n === "clicks" ? fmt.num(v) : fmt.num(v), n === "clicks" ? "Clicks" : "Impressions"]} />
                     <Bar dataKey="clicks" fill={C.copper} radius={[0, 4, 4, 0]} />
@@ -1093,13 +1093,13 @@ export default function StokeshireKPIDashboard() {
                       borderBottom: i < searchMetrics.clusterList.length - 1 ? `1px solid ${C.creamDark}` : "none",
                     }}>
                       <span style={{ fontSize: 12, color: C.ink }}>{c.name}</span>
-                      <span style={{ fontSize: 12, color: C.slate }}>{fmt.num(c.clicks)} clicks Â· {fmt.num(c.count)} queries</span>
+                      <span style={{ fontSize: 12, color: C.slate }}>{fmt.num(c.clicks)} clicks · {fmt.num(c.count)} queries</span>
                     </div>
                   ))}
                 </div>
               </Section>
             </div>
-            <Section title="Full Keyword Table â Top 50">
+            <Section title="Full Keyword Table — Top 50">
               <div style={{ overflowX: "auto", maxHeight: 600, overflowY: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: FONT.body, fontSize: 12 }}>
                   <thead>
@@ -1139,7 +1139,7 @@ export default function StokeshireKPIDashboard() {
           </div>
         )}
 
-        {/* âââââââââââ TOP PAGES âââââââââââ */}
+        {/* ═══════════ TOP PAGES ═══════════ */}
         {tab === "pages" && searchMetrics && (
           <div className="fade-in">
             <Section title="Top Landing Pages by Search Clicks" style={{ marginBottom: 24 }}>
@@ -1148,7 +1148,7 @@ export default function StokeshireKPIDashboard() {
                   <CartesianGrid strokeDasharray="3 3" stroke={C.warmGray} />
                   <XAxis type="number" tick={{ fontSize: 10, fill: C.stone }} />
                   <YAxis dataKey="page" type="category" tick={{ fontSize: 10, fill: C.ink }} width={190}
-                    tickFormatter={v => v.length > 35 ? "â¦" + v.slice(-32) : v} />
+                    tickFormatter={v => v.length > 35 ? "…" + v.slice(-32) : v} />
                   <Tooltip contentStyle={{ fontFamily: FONT.body, fontSize: 12, borderRadius: 6 }} formatter={(v) => [fmt.num(v), "Clicks"]} />
                   <Bar dataKey="clicks" fill={C.copper} radius={[0, 4, 4, 0]} />
                 </BarChart>
@@ -1187,14 +1187,14 @@ export default function StokeshireKPIDashboard() {
           </div>
         )}
 
-        {/* âââââââââââ AI VISIBILITY (TAB 5) âââââââââââ */}
+        {/* ═══════════ AI VISIBILITY (TAB 5) ═══════════ */}
         {tab === "ai" && <AIVisibilityTab />}
 
-        {/* âââââââââââ NO DATA STATE âââââââââââ */}
+        {/* ═══════════ NO DATA STATE ═══════════ */}
         {!metrics && !loading && tab !== "ai" && (
           <Section>
             <div style={{ textAlign: "center", padding: 40 }}>
-              <div style={{ fontSize: 32, marginBottom: 12 }}>ð¡</div>
+              <div style={{ fontSize: 32, marginBottom: 12 }}>📡</div>
               <div style={{ fontFamily: FONT.display, fontSize: 20, color: C.ink, marginBottom: 8 }}>No data loaded yet</div>
               <div style={{ fontFamily: FONT.body, fontSize: 13, color: C.slate, maxWidth: 400, margin: "0 auto" }}>
                 Make sure your Google Sheets are published to the web as CSV.
@@ -1204,16 +1204,16 @@ export default function StokeshireKPIDashboard() {
         )}
       </div>
 
-      {/* ââ FOOTER ââ */}
+      {/* ── FOOTER ── */}
       <div style={{
         padding: "16px 32px", borderTop: `1px solid ${C.warmGray}`,
         display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 40,
       }}>
         <span style={{ fontFamily: FONT.body, fontSize: 11, color: C.stone }}>
-          Stokeshire Designer Doodles Â· DATCP #514401-DS Â· Medford, WI
+          Stokeshire Designer Doodles · DATCP #514401-DS · Medford, WI
         </span>
         <span style={{ fontFamily: FONT.body, fontSize: 11, color: C.stone }}>
-          Data auto-refreshes on page load Â· CSV cache ~5 min
+          Data auto-refreshes on page load · CSV cache ~5 min
         </span>
       </div>
 
